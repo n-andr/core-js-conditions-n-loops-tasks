@@ -284,6 +284,7 @@ function isContainNumber(num, digit) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
+// error
 function getBalanceIndex(arr) {
   let leftSum = 0;
   let totalSum = 0;
@@ -291,7 +292,9 @@ function getBalanceIndex(arr) {
   for (let i = 0; i < arr.length; i += 1) {
     totalSum += arr[i];
   }
-  for (let i = 0; i < arr.length; i += 1) {
+  totalSum -= arr[0];
+  leftSum += arr[0];
+  for (let i = 1; i < arr.length; i += 1) {
     totalSum -= arr[i];
     if (leftSum === totalSum) return i;
     leftSum += arr[i];
@@ -435,62 +438,53 @@ function sortByAsc(array) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-// function shuffleChar(str, iterations) {
-//   const t = Date.now();
-//   const indexes = new Array(str.length);
-//   indexes[0] = 0;
-//   for (let i = 1; i < str.length; i += 1) {
-//     let newIndex = i;
-//     const seenIndexes = new Map();
-//     for (let j = 0; j < iterations; j += 1) {
-//       newIndex =
-//         newIndex % 2 === 0
-//           ? newIndex / 2
-//           : Math.ceil(str.length / 2) + Math.floor(newIndex / 2);
-//       if (seenIndexes.has(newIndex)) {
-//         const loopLength = j - seenIndexes.get(newIndex);
-//         j += Math.floor((iterations - j) / loopLength) * loopLength;
-//         console.log(
-//           'element',
-//           i,
-//           'has been seen before on iterations',
-//           j,
-//           seenIndexes.get(newIndex),
-//           'skipping to iteration',
-//           j
-//         );
-//         seenIndexes.clear();
-//       } else {
-//         seenIndexes.set(newIndex, j);
-//       }
-//     }
-//     indexes[i] = newIndex;
-//   }
-//   const result = new Array(str.length);
-//   for (let i = 0; i < result.length; i += 1) {
-//     result[indexes[i]] = str[i];
-//   }
-//   console.log(Date.now() - t);
-//   console.log(str);
-//   console.log(iterations);
-//   return result.join('');
-// }
 function shuffleChar(str, iterations) {
-  let result = str;
-  for (let i = 0; i < iterations; i += 1) {
-    let addEven = '';
-    let addOdd = '';
-    for (let j = 0; j < result.length; j += 1) {
-      if (j % 2 === 0) {
-        addEven += result[j];
+  const indexes = new Array(str.length);
+  indexes[0] = 0;
+  for (let i = 1; i < str.length; i += 1) {
+    let newIndex = i;
+    const seenIndexes = new Map();
+    for (let j = 0; j < iterations; j += 1) {
+      newIndex =
+        newIndex % 2 === 0
+          ? newIndex / 2
+          : Math.ceil(str.length / 2) + Math.floor(newIndex / 2);
+      if (seenIndexes.has(newIndex)) {
+        const loopLength = j - seenIndexes.get(newIndex);
+        j += Math.floor((iterations - 1 - j) / loopLength) * loopLength;
+        seenIndexes.clear();
       } else {
-        addOdd += result[j];
+        seenIndexes.set(newIndex, j);
       }
     }
-    result = addEven + addOdd;
+    indexes[i] = newIndex;
   }
-  return result;
+  const result = new Array(str.length);
+  for (let i = 0; i < result.length; i += 1) {
+    result[indexes[i]] = str[i];
+  }
+  let resultStr = '';
+  for (let i = 0; i < result.length; i += 1) {
+    resultStr += result[i];
+  }
+  return resultStr;
 }
+// function shuffleChar(str, iterations) {
+//   let result = str;
+//   for (let i = 0; i < iterations; i += 1) {
+//     let addEven = '';
+//     let addOdd = '';
+//     for (let j = 0; j < result.length; j += 1) {
+//       if (j % 2 === 0) {
+//         addEven += result[j];
+//       } else {
+//         addOdd += result[j];
+//       }
+//     }
+//     result = addEven + addOdd;
+//   }
+//   return result;
+// }
 
 /**
  * Returns the nearest largest integer consisting of the digits of the given positive integer.
@@ -509,8 +503,9 @@ function shuffleChar(str, iterations) {
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const biggerNumber = number;
+  return biggerNumber;
 }
 
 module.exports = {
