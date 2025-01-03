@@ -403,22 +403,58 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(array) {
-  const arr = array;
-  const len = arr.length;
+// function sortByAsc(array) {
+//   const arr = array;
+//   const len = arr.length;
 
-  for (let i = 0; i < len - 1; i += 1) {
-    let minIndex = i;
-    for (let j = i + 1; j < len; j += 1) {
-      if (arr[j] < arr[minIndex]) {
-        minIndex = j;
+//   for (let i = 0; i < len - 1; i += 1) {
+//     let minIndex = i;
+//     for (let j = i + 1; j < len; j += 1) {
+//       if (arr[j] < arr[minIndex]) {
+//         minIndex = j;
+//       }
+//     }
+//     if (minIndex !== i) {
+//       [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+//     }
+//   }
+//   return arr;
+// }
+
+function sortByAsc(array) {
+  function swapNum(arr, i, j) {
+    // Create a local copy of the array section being swapped
+    const temp = [...arr];
+    temp[i] = arr[j];
+    temp[j] = arr[i];
+    return temp;
+  }
+
+  function partition(ar, low, high) {
+    const pivot = ar[high];
+    let arr = [...ar];
+    let i = low - 1;
+    for (let j = low; j < high; j += 1) {
+      if (arr[j] < pivot) {
+        i += 1;
+        arr = swapNum(arr, i, j); // Update the array after swapping
       }
     }
-    if (minIndex !== i) {
-      [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
-    }
+    arr = swapNum(arr, i + 1, high); // Final swap for pivot
+    return { arr, pivotIndex: i + 1 };
   }
-  return arr;
+
+  function quickSort(arr, low, high) {
+    if (low < high) {
+      const { arr: newArr, pivotIndex } = partition(arr, low, high);
+      quickSort(newArr, low, pivotIndex - 1);
+      quickSort(newArr, pivotIndex + 1, high);
+    }
+    return arr;
+  }
+
+  const result = [...array];
+  return quickSort(result, 0, result.length - 1);
 }
 
 /**
