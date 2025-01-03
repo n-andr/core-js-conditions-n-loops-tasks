@@ -403,6 +403,8 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
+
+// solution with selection sort (not optimal)
 // function sortByAsc(array) {
 //   const arr = array;
 //   const len = arr.length;
@@ -420,7 +422,7 @@ function rotateMatrix(matrix) {
 //   }
 //   return arr;
 // }
-
+// solution with insertion sort
 function sortByAsc(array) {
   const len = array.length;
   const arr = array;
