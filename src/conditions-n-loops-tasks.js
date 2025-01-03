@@ -422,39 +422,18 @@ function rotateMatrix(matrix) {
 // }
 
 function sortByAsc(array) {
-  function swapNum(arr, i, j) {
-    // Create a local copy of the array section being swapped
-    const temp = [...arr];
-    temp[i] = arr[j];
-    temp[j] = arr[i];
-    return temp;
-  }
-
-  function partition(ar, low, high) {
-    const pivot = ar[high];
-    let arr = [...ar];
-    let i = low - 1;
-    for (let j = low; j < high; j += 1) {
-      if (arr[j] < pivot) {
-        i += 1;
-        arr = swapNum(arr, i, j); // Update the array after swapping
-      }
+  const len = array.length;
+  const arr = array;
+  for (let i = 1; i < len; i += 1) {
+    const current = arr[i];
+    let j = i - 1;
+    while (j >= 0 && arr[j] > current) {
+      arr[j + 1] = arr[j];
+      j -= 1;
     }
-    arr = swapNum(arr, i + 1, high); // Final swap for pivot
-    return { arr, pivotIndex: i + 1 };
+    arr[j + 1] = current;
   }
-
-  function quickSort(arr, low, high) {
-    if (low < high) {
-      const { arr: newArr, pivotIndex } = partition(arr, low, high);
-      quickSort(newArr, low, pivotIndex - 1);
-      quickSort(newArr, pivotIndex + 1, high);
-    }
-    return arr;
-  }
-
-  const result = [...array];
-  return quickSort(result, 0, result.length - 1);
+  return arr;
 }
 
 /**
